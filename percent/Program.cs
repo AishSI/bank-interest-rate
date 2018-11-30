@@ -10,23 +10,30 @@ namespace ConsoleApp1
 {
     class Program
     {
-        public static double Calculate(string userInput)
-        {
-            String[] depositData = userInput.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-            double initialAmount = double.Parse(depositData[0], CultureInfo.InvariantCulture); // исходная сумма
-            double interestRate = double.Parse(depositData[1], CultureInfo.InvariantCulture); //процентная ставка
-            double timeDepositMonth = double.Parse(depositData[2], CultureInfo.InvariantCulture); // срок вклада в месяцах
-
-            double sumDeposit = initialAmount * Math.Pow((1 + (interestRate / 100) * (1 / 12.0)), timeDepositMonth);
-
-            return sumDeposit;
-
-        }
-
         static void Main(string[] args)
         {
-            Console.WriteLine($"Сумма к выдаче: {Calculate(Console.ReadLine())}");
+            string[] headerDeposit = { "сумма вклада", "проценты по вкладу", "срок вклада в месяцах" };
+            double[] depositData = { 0, 0, 0 };
+
+            Console.WriteLine("Введите данные по вкладу: \n");
+            GetValueDeposit(headerDeposit, depositData);
+
+            Console.WriteLine($"\nСумма к выдаче: {Calculate(depositData)}\n");
+        }
+
+        public static void GetValueDeposit(string[] header, double[] value)
+        {
+            for (int i = 0; i < header.Length; i++)
+            {
+                Console.WriteLine(header[i]);
+                value[i] = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+            }
+        }
+
+        public static double Calculate(double[] depositData)
+        {
+            double sumDeposit = depositData[0] * Math.Pow((1 + (depositData[1] / 100) * (1 / 12.0)), depositData[2]);
+            return sumDeposit;
         }
     }
 }
